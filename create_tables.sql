@@ -9,9 +9,9 @@ $$
 BEGIN
     IF email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,4}$' THEN
         RETURN TRUE;
-    ELSE
-        RAISE EXCEPTION 'Nieprawidlowy format adresu e-mail: %', email;
     END IF;
+
+    RAISE EXCEPTION 'Nieprawidlowy format adresu e-mail: %', email;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -20,9 +20,9 @@ $$
 BEGIN
     IF nr_tel ~ '^[0-9]{9}$' THEN
         RETURN TRUE;
-    ELSE
-        RAISE EXCEPTION 'Nieprawidlowy format numeru telefonu: %', nr_tel;
     END IF;
+
+    RAISE EXCEPTION 'Nieprawidlowy format numeru telefonu: %', nr_tel;
 END;
 $$ LANGUAGE plpgsql;
 
