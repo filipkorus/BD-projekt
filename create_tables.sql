@@ -29,8 +29,8 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE uzytkownicy
 (
     uid              SERIAL PRIMARY KEY,
-    imie             VARCHAR(255)              NOT NULL,
-    nazwisko         VARCHAR(255)              NOT NULL,
+    imie             VARCHAR(255)              NOT NULL CHECK (LENGTH(imie) > 1 AND imie !~ '^[A-Z]\.$'),
+    nazwisko         VARCHAR(255)              NOT NULL CHECK (LENGTH(nazwisko) > 1 AND nazwisko !~ '^[A-Z]\.$'),
     login            VARCHAR(30) UNIQUE        NOT NULL,
     email            VARCHAR(255) UNIQUE       NOT NULL CHECK ( walidacjaEmail(email) ),
     nr_tel           VARCHAR(9) UNIQUE         NOT NULL CHECK ( walidacjaNrTel(nr_tel) ),
