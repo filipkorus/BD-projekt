@@ -10,8 +10,7 @@ drop function if exists walidacja_nr_tel(VARCHAR(9));
 CREATE OR REPLACE FUNCTION walidacja_email(email VARCHAR(255)) RETURNS BOOLEAN AS
 $$
 BEGIN
-    RETURN TRUE; -- TODO: fix in production
-    IF email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,4}$' THEN
+    IF email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$' THEN
         RETURN TRUE;
     ELSE
         RAISE NOTICE 'Nieprawidlowy format adresu e-mail: %', email;
@@ -19,6 +18,7 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION walidacja_nr_tel(nr_tel VARCHAR(9)) RETURNS BOOLEAN AS
 $$
@@ -146,13 +146,13 @@ CREATE TABLE aukcje
     wystawione_przez_uid          INT                       NOT NULL REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE CASCADE, -- usunac aukcje moze tylko jej wystawca, admin lub obsluga_klienta
     cena                          INT4                      NOT NULL,
     sid                           INT                       NOT NULL REFERENCES samochody (sid) ON UPDATE CASCADE ON DELETE RESTRICT,
-    zatwierdzona_przez_pracownika BOOLEAN,                                                                                             -- jest NOT NULL tylko wtedy gdy aukcja jest wystawiona przez klienta (indywidulanego), moze byc zatwierdzone tylko przez admina lub pracownika oblugi
+    zatwierdzona_przez_pracownika BOOLEAN,                           -- !!! TO DO: pytanie: czy zatwierdzenie przez pracownika nastepuje automatycznie jak dealer dodaje  aukcje?                                                                 -- jest NOT NULL tylko wtedy gdy aukcja jest wystawiona przez klienta (indywidulanego), moze byc zatwierdzone tylko przez admina lub pracownika oblugi
     sprzedane                     BOOLEAN                   NOT NULL,
     kupione_przez_uid             INT REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 INSERT INTO uzytkownicy (imie, nazwisko, login, haslo, email, nr_tel, nr_tel_publiczny, typ_uzytkownika)
-VALUES ('Jan', 'Kowalski', 'jkowalski', 'haslo123', 'jan.kowalski@wp.pl', '123456789', TRUE, 'klient'),
+VALUES ('Jan', 'Kowalski', 'jkowalski', 'haslo123', 'jankowalski@wp.pl', '123456789', TRUE, 'klient'),
        ('Anna', 'Nowak', 'anowak', 'qwerty', 'anna.nowak@example.com', '987654321', FALSE, 'dealer'),
        ('Adam', 'Majewski', 'amajewski', 'p@ssw0rd', 'adam.majewski@example.com', '555666777', TRUE, 'klient');
 
@@ -160,10 +160,15 @@ INSERT INTO samochody (marka, model, rok_produkcji, przebieg, kolor_karoserii, p
                        powypadkowy, moc_silnika, spalanie, opis)
 VALUES ('Volkswagen', 'Golf', 2019, 50000, 'Czarny', 1, 50, 5, FALSE, TRUE, 120, 6, 'Samochód w dobrym stanie.'),
        ('Ford', 'Mustang', 2022, 1000, 'Czerwony', 1, 60, 3, TRUE, FALSE, 350, 12, 'Nowy model z silnikiem V8.'),
-       ('Opel', 'Corsa', 2018, 30000, 'Biały', 2, 45, 2, FALSE, TRUE, 100, 5, 'Używany, lekkie ślady użytkowania.');
+       ('Opel', 'Corsa', 2018, 30000, 'Biały', 2, 45, 2, FALSE, TRUE, 100, 5, 'Używany, lekkie ślady użytkowania.'),
+       ('Fiat', 'Punto', 2015, 80000, 'Srebrny', 1, 40, 1, FALSE, TRUE, 80, 5, 'Używane auto zadbane, regularnie serwisowane.'),
+    ('Renault', 'Megane', 2005, 150000, 'Niebieski', 4, 55, 6, FALSE, TRUE, 90, 7, 'Starsze auto, nadal w dobrym stanie.');
+
 
 INSERT INTO aukcje (tytul, data_wystawienia, koniec_aukcji, wystawione_przez_uid, cena, sid,
                     zatwierdzona_przez_pracownika, sprzedane, kupione_przez_uid)
 VALUES ('VW Golf 2019', NOW(), (NOW() + interval '30 day'), 1, 25000, 1, NULL, FALSE, NULL),
        ('Nowy Ford Mustang 2022', NOW(), (NOW() + interval '45 day'), 2, 70000, 2, TRUE, FALSE, NULL),
-       ('Opel Corsa 2018', NOW(), (NOW() + interval '25 day'), 3, 15000, 3, NULL, FALSE, NULL);
+       ('Oapel Corsa 2018', NOW(), (NOW() + interval '25 day'), 3, 15000, 3, NULL, FALSE, NULL),
+       ('Wsyzstko ale nie stara renault ', '2023-12-15'::timestamptz, ('2023-12-15'::timestamptz+ interval '10 day'), 2, 10000, 4, TRUE, FALSE, NULL),
+        ('stara rura fiat punto', NOW(), (NOW() + interval '15 day'), 2, 222000, 5, TRUE, TRUE, 1);
