@@ -15,4 +15,7 @@ GRANT SELECT, UPDATE (aid,
                       sid,
                       czy_zatwierdzona), DELETE ON aukcje TO administrator;
 
+-- admin może CRUD na tabelach z paliwami oraz z nadwoziami
+GRANT SELECT, UPDATE, INSERT, DELETE ON typ_paliwa, typ_nadwozia TO administrator;
+
 SET ROLE administrator;
