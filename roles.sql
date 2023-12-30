@@ -1,7 +1,7 @@
 SET ROLE admin;
 
 -- usuwamy uzytkownika
-REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM administrator;
+REVOKE ALL PRIVILEGES ON samochody FROM administrator;
 DROP USER IF EXISTS administrator;
 
 -- flaga CREATEROLE jest po to aby admin mogl tworzyc nowych uzytkownikow psql
