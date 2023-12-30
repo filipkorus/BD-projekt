@@ -139,17 +139,38 @@ CREATE TABLE samochody
 
 CREATE TABLE aukcje
 (
-    aid                           SERIAL PRIMARY KEY,
-    tytul                         VARCHAR(255)              NOT NULL,
-    data_wystawienia              timestamptz DEFAULT NOW() NOT NULL,
-    koniec_aukcji                 timestamptz DEFAULT (NOW() + interval '30 day'),
-    wystawione_przez_uid          INT                       NOT NULL REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE CASCADE, -- usunac aukcje moze tylko jej wystawca, admin lub obsluga_klienta
-    cena                          INT4                      NOT NULL,
-    sid                           INT                       NOT NULL REFERENCES samochody (sid) ON UPDATE CASCADE ON DELETE RESTRICT,
-    zatwierdzona_przez_pracownika BOOLEAN,                           -- !!! TO DO: pytanie: czy zatwierdzenie przez pracownika nastepuje automatycznie jak dealer dodaje  aukcje?                                                                 -- jest NOT NULL tylko wtedy gdy aukcja jest wystawiona przez klienta (indywidulanego), moze byc zatwierdzone tylko przez admina lub pracownika oblugi
-    sprzedane                     BOOLEAN                   NOT NULL,
-    kupione_przez_uid             INT REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE RESTRICT
+    aid                  SERIAL PRIMARY KEY,
+    tytul                VARCHAR(255) NOT NULL,
+    data_wystawienia     timestamptz           DEFAULT NOW() NOT NULL,
+    koniec_aukcji        timestamptz           DEFAULT (NOW() + interval '30 day'),
+    wystawione_przez_uid INT          NOT NULL REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE CASCADE, -- usunac aukcje moze tylko jej wystawca, admin lub obsluga_klienta
+    cena                 INT4         NOT NULL,
+    sid                  INT          NOT NULL REFERENCES samochody (sid) ON UPDATE CASCADE ON DELETE RESTRICT,
+    czy_zatwierdzona     BOOLEAN      NOT NULL DEFAULT FALSE,                                                    -- gdy aukcja jest wystawiona przez klienta (indywidulanego) moze byc zatwierdzona tylko przez admina lub pracownika oblugi, aukcje dealera są automatycznie akceptowane
+    sprzedane            BOOLEAN      NOT NULL,
+    kupione_przez_uid    INT REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE RESTRICT
 );
+
+CREATE OR REPLACE FUNCTION ustaw_zatwierdzenie_dealera()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    NEW.czy_zatwierdzona := FALSE;
+
+    IF NEW.wystawione_przez_uid IN (SELECT uid FROM uzytkownicy WHERE typ_uzytkownika = 'dealer') THEN
+        NEW.czy_zatwierdzona := TRUE;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER ustaw_zatwierdzenie_dealera_trigger
+    AFTER INSERT
+    ON aukcje
+    FOR EACH ROW
+EXECUTE FUNCTION ustaw_zatwierdzenie_dealera();
+
 
 INSERT INTO uzytkownicy (imie, nazwisko, login, haslo, email, nr_tel, nr_tel_publiczny, typ_uzytkownika)
 VALUES ('Jan', 'Kowalski', 'jkowalski', 'haslo123', 'jankowalski@wp.pl', '123456789', TRUE, 'klient'),
@@ -159,16 +180,19 @@ VALUES ('Jan', 'Kowalski', 'jkowalski', 'haslo123', 'jankowalski@wp.pl', '123456
 INSERT INTO samochody (marka, model, rok_produkcji, przebieg, kolor_karoserii, pid, pojemnosc_baku, nid, nowy,
                        powypadkowy, moc_silnika, spalanie, opis)
 VALUES ('Volkswagen', 'Golf', 2019, 50000, 'Czarny', 1, 50, 5, FALSE, TRUE, 120, 6, 'Samochód w dobrym stanie.'),
-       ('Ford', 'Mustang', 2022, 1000, 'Czerwony', 1, 60, 3, TRUE, FALSE, 350, 12, 'Nowy model z silnikiem V8.'),
+       ('Ford', 'Mustang', 2022, 1000, 'Czerwony', 1, 60, 3, TRUE, NULL, 350, 12, 'Nowy model z silnikiem V8.'),
        ('Opel', 'Corsa', 2018, 30000, 'Biały', 2, 45, 2, FALSE, TRUE, 100, 5, 'Używany, lekkie ślady użytkowania.'),
-       ('Fiat', 'Punto', 2015, 80000, 'Srebrny', 1, 40, 1, FALSE, TRUE, 80, 5, 'Używane auto zadbane, regularnie serwisowane.'),
-    ('Renault', 'Megane', 2005, 150000, 'Niebieski', 4, 55, 6, FALSE, TRUE, 90, 7, 'Starsze auto, nadal w dobrym stanie.');
+       ('Fiat', 'Punto', 2015, 80000, 'Srebrny', 1, 40, 1, FALSE, TRUE, 80, 5,
+        'Używane auto zadbane, regularnie serwisowane.'),
+       ('Renault', 'Megane', 2005, 150000, 'Niebieski', 4, 55, 6, FALSE, TRUE, 90, 7,
+        'Starsze auto, nadal w dobrym stanie.');
 
 
-INSERT INTO aukcje (tytul, data_wystawienia, koniec_aukcji, wystawione_przez_uid, cena, sid,
-                    zatwierdzona_przez_pracownika, sprzedane, kupione_przez_uid)
-VALUES ('VW Golf 2019', NOW(), (NOW() + interval '30 day'), 1, 25000, 1, NULL, FALSE, NULL),
-       ('Nowy Ford Mustang 2022', NOW(), (NOW() + interval '45 day'), 2, 70000, 2, TRUE, FALSE, NULL),
-       ('Oapel Corsa 2018', NOW(), (NOW() + interval '25 day'), 3, 15000, 3, NULL, FALSE, NULL),
-       ('Wsyzstko ale nie stara renault ', '2023-12-15'::timestamptz, ('2023-12-15'::timestamptz+ interval '10 day'), 2, 10000, 4, TRUE, FALSE, NULL),
-        ('stara rura fiat punto', NOW(), (NOW() + interval '15 day'), 2, 222000, 5, TRUE, TRUE, 1);
+INSERT INTO aukcje (tytul, data_wystawienia, koniec_aukcji, wystawione_przez_uid, cena, sid, sprzedane,
+                    kupione_przez_uid)
+VALUES ('VW Golf 2019', NOW(), (NOW() + interval '30 day'), 1, 25000, 1, FALSE, NULL),
+       ('Nowy Ford Mustang 2022', NOW(), (NOW() + interval '45 day'), 2, 70000, 2, FALSE, NULL),
+       ('Oapel Corsa 2018', NOW(), (NOW() + interval '25 day'), 3, 15000, 3, FALSE, NULL),
+       ('Wsyzstko ale nie stara renault ', '2023-12-15'::timestamptz, ('2023-12-15'::timestamptz + interval '10 day'),
+        2, 10000, 4, FALSE, NULL),
+       ('stara rura fiat punto', NOW(), (NOW() + interval '15 day'), 2, 222000, 5, TRUE, 1);

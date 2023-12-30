@@ -11,7 +11,7 @@ from aukcje
          inner join uzytkownicy on (wystawione_przez_uid = uid)
          inner join samochody using (sid)
 where sprzedane = FALSE
-  and (zatwierdzona_przez_pracownika = TRUE or zatwierdzona_przez_pracownika IS NULL);
+  and (czy_zatwierdzona = TRUE or czy_zatwierdzona IS NULL);
 --select * from showing_all_auctions_opened;
 drop view showing_all_auctions_opened;
 
@@ -24,7 +24,7 @@ select tytul,
        login                                   AS "wystawione przez",
        email,
        nr_tel                                  AS "numer tel",
-       zatwierdzona_przez_pracownika,
+       czy_zatwierdzona,
        sprzedane,
        CASE
            WHEN sprzedane THEN kupione_przez_uid
@@ -43,7 +43,7 @@ select tytul,
        to_char(koniec_aukcji, 'YYYY-MM-DD')    AS "koniec aukcji",
        cena,
        sprzedane,
-       zatwierdzona_przez_pracownika
+       czy_zatwierdzona
 from uzytkownicy
          cross join aukcje
 where (sprzedane = FALSE and koniec_aukcji>now())
@@ -58,7 +58,7 @@ create view dealers_history_auctions as select tytul,
        to_char(koniec_aukcji, 'YYYY-MM-DD')    AS "koniec aukcji",
        cena,
        sprzedane,
-       zatwierdzona_przez_pracownika
+       czy_zatwierdzona
 from uzytkownicy
          cross join aukcje
 where wystawione_przez_uid = uid and ( sprzedane=TRUE or koniec_aukcji <now())
