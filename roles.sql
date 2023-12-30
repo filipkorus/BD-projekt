@@ -18,4 +18,7 @@ GRANT SELECT, UPDATE (aid,
 -- admin może CRUD na tabelach z paliwami oraz z nadwoziami
 GRANT SELECT, UPDATE, INSERT, DELETE ON typ_paliwa, typ_nadwozia TO administrator;
 
+-- admin nie może dodawac nowych samochodow
+GRANT SELECT, UPDATE, DELETE ON samochody TO admin;
+
 SET ROLE administrator;
