@@ -131,7 +131,7 @@ CREATE TABLE samochody
     pojemnosc_baku  INT2,
     nid             INT          NOT NULL REFERENCES typ_nadwozia (nid) ON UPDATE CASCADE ON DELETE RESTRICT,
     nowy            BOOLEAN      NOT NULL,
-    powypadkowy     BOOLEAN CHECK ((nowy = FALSE AND powypadkowy IS NOT NULL) OR nowy = TRUE),
+    powypadkowy     BOOLEAN CHECK ((nowy = FALSE AND powypadkowy IS NOT NULL) OR (nowy = TRUE AND powypadkowy IS NULL)),
     moc_silnika     INT2         NOT NULL,
     spalanie        INT2,
     opis            TEXT
