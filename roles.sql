@@ -19,6 +19,9 @@ GRANT SELECT, UPDATE (aid,
 GRANT SELECT, UPDATE, INSERT, DELETE ON typ_paliwa, typ_nadwozia TO administrator;
 
 -- admin nie może dodawac nowych samochodow
-GRANT SELECT, UPDATE, DELETE ON samochody TO admin;
+GRANT SELECT, UPDATE, DELETE ON samochody TO administrator;
+
+-- admin moze zarzadzac uzytkownikami
+GRANT SELECT, INSERT, UPDATE, DELETE ON uzytkownicy TO administrator;
 
 SET ROLE administrator;
