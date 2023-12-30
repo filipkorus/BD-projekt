@@ -1,8 +1,11 @@
 SET ROLE admin;
 
-DROP USER IF EXISTS administrator; -- usuwamy uzytkownika
+-- usuwamy uzytkownika
+REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM administrator;
+DROP USER IF EXISTS administrator;
 
-CREATE USER administrator WITH PASSWORD 'admin';
+-- flaga CREATEROLE jest po to aby admin mogl tworzyc nowych uzytkownikow psql
+CREATE USER administrator WITH PASSWORD 'admin' CREATEROLE;
 
 -- admin nie moze updateowac kolumn sprzedane, kupione_przez_uid w tabeli aukcje
 -- nie moze tez robic insert do tabeli aukcje
