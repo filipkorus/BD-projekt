@@ -1,3 +1,5 @@
+SET ROLE admin;
+
 drop table if exists aukcje;
 drop table if exists samochody;
 drop table if exists uzytkownicy;
