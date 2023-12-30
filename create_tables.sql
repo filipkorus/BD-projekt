@@ -7,6 +7,9 @@ drop table if exists typ_paliwa;
 drop function if exists walidacja_email(VARCHAR(255));
 drop function if exists walidacja_nr_tel(VARCHAR(9));
 
+drop function if exists ustaw_zatwierdzenie_dealera();
+drop trigger if exists ustaw_zatwierdzenie_dealera_trigger on aukcje;
+
 CREATE OR REPLACE FUNCTION walidacja_email(email VARCHAR(255)) RETURNS BOOLEAN AS
 $$
 BEGIN
@@ -165,8 +168,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER ustaw_zatwierdzenie_dealera_trigger
-    AFTER INSERT
+CREATE OR REPLACE TRIGGER ustaw_zatwierdzenie_dealera_trigger
+    BEFORE INSERT
     ON aukcje
     FOR EACH ROW
 EXECUTE FUNCTION ustaw_zatwierdzenie_dealera();
