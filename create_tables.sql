@@ -152,7 +152,8 @@ CREATE TABLE aukcje
     cena                 INT4         NOT NULL,
     sid                  INT          NOT NULL REFERENCES samochody (sid) ON UPDATE CASCADE ON DELETE RESTRICT,
     czy_zatwierdzona     BOOLEAN      NOT NULL DEFAULT FALSE,                                                    -- gdy aukcja jest wystawiona przez klienta (indywidulanego) moze byc zatwierdzona tylko przez admina lub pracownika oblugi, aukcje dealera są automatycznie akceptowane
-    sprzedane            BOOLEAN      NOT NULL,
+    sprzedane            BOOLEAN      NOT NULL CHECK ( (sprzedane = TRUE AND kupione_przez_uid IS NOT NULL) OR
+                                                       (sprzedane = FALSE AND kupione_przez_uid IS NULL) ),
     kupione_przez_uid    INT REFERENCES uzytkownicy (uid) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 

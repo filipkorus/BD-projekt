@@ -11,6 +11,7 @@ from aukcje
          inner join uzytkownicy on (wystawione_przez_uid = uid)
          inner join samochody using (sid)
 where sprzedane = FALSE
+  and koniec_aukcji > NOW()
   and czy_zatwierdzona = TRUE;
 
 select *
@@ -21,15 +22,16 @@ drop view if exists showing_all_auctions_opened;
 -- 2. WIDOK (dla admina/pracownika obslugi - czyli dodatkowo trzeba wyswietlic aukcje zwyklych klientow - te niezatwierdzone przez admina): kto wystawia, parametry samochodu, do kiedy aukcja, cena
 create or replace view showing_privileged_access as
 select tytul,
-       to_char(data_wystawienia, 'YYYY-MM-DD')          AS "data wystawienia",
-       to_char(koniec_aukcji, 'YYYY-MM-DD')             AS "koniec aukcji",
+       to_char(data_wystawienia, 'YYYY-MM-DD')                                   AS "data wystawienia",
+       to_char(koniec_aukcji, 'YYYY-MM-DD')                                      AS "koniec aukcji",
        cena,
-       login                                            AS "wystawione przez",
+       login                                                                     AS "wystawione przez",
        email,
-       nr_tel                                           AS "numer tel",
+       nr_tel                                                                    AS "numer tel",
        czy_zatwierdzona,
        sprzedane,
-       (CASE WHEN sprzedane THEN kupione_przez_uid END) AS kupione_przez_uid
+       (CASE WHEN (sprzedane OR koniec_aukcji < NOW()) THEN TRUE ELSE FALSE END) AS "zakonczona",
+       (CASE WHEN sprzedane THEN kupione_przez_uid END)                          AS kupione_przez_uid
 from aukcje
          inner join uzytkownicy on (wystawione_przez_uid = uid)
          inner join samochody using (sid);
@@ -49,9 +51,9 @@ select tytul,
        sprzedane,
        czy_zatwierdzona
 from uzytkownicy
-         cross join aukcje
+         inner join aukcje on wystawione_przez_uid = uid
 where (sprzedane = FALSE and koniec_aukcji > now())
-  and wystawione_przez_uid = 1
+  and uid = 2
   and (typ_uzytkownika = 'dealer');
 
 select *
@@ -68,9 +70,9 @@ select tytul,
        sprzedane,
        czy_zatwierdzona
 from uzytkownicy
-         cross join aukcje
-where wystawione_przez_uid = uid
-  and (sprzedane = TRUE or koniec_aukcji < now())
+         inner join aukcje on wystawione_przez_uid = uid
+where (sprzedane = TRUE or koniec_aukcji < now())
+  and uid = 2
   and (typ_uzytkownika = 'dealer');
 
 select *
