@@ -15,10 +15,10 @@ $$
 BEGIN
     IF email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$' THEN
         RETURN TRUE;
-    ELSE
-        RAISE NOTICE 'Nieprawidlowy format adresu e-mail: %', email;
-        RETURN FALSE;
     END IF;
+
+    RAISE NOTICE 'Nieprawidlowy format adresu e-mail: %', email;
+    RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -28,10 +28,10 @@ $$
 BEGIN
     IF nr_tel ~ '^[0-9]{9}$' THEN
         RETURN TRUE;
-    ELSE
-        RAISE NOTICE 'Nieprawidlowy format numeru telefonu: %', nr_tel;
-        RETURN FALSE;
     END IF;
+
+    RAISE NOTICE 'Nieprawidlowy format numeru telefonu: %', nr_tel;
+    RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 
