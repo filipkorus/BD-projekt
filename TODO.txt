@@ -1,0 +1,6 @@
+- uprawnienia:
+    - dealera:
+        - dodawanie nowych aukcji/samochodow
+        - usuwanie/edytowanie swoich aukcji (?)
+    - obsluga_klienta:
+        - to samo co admin oprocz dodawania nowych adminow/obslugi_klienta
