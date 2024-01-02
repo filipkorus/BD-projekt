@@ -1,4 +1,4 @@
-CREATE ROLE admin_group;
+ CREATE ROLE  admin_group;
 
 -- admin nie moze updateowac kolumn sprzedane, kupione_przez_uid w tabeli aukcje
 -- nie moze tez robic insert do tabeli aukcje
