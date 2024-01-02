@@ -1,4 +1,4 @@
- CREATE ROLE  admin_group;
+CREATE ROLE admin_group;
 
 -- admin nie moze updateowac kolumn sprzedane, kupione_przez_uid w tabeli aukcje
 -- nie moze tez robic insert do tabeli aukcje
@@ -20,14 +20,18 @@ GRANT USAGE, SELECT ON SEQUENCE uzytkownicy_uid_seq TO admin_group;
 -- GRANT CREATE ON SCHEMA public TO admin_group;
 
 -- admin moze ogladac wszystkie aukcje
-GRANT SELECT ON wszystkie_aukcje_uprzywiledowany_dostep TO admin_group;
+GRANT SELECT ON wszystkie_aukcje_uprzywilejowany_dostep TO admin_group;
 
--- admin musi miec ADMIN OPTION w grupie klient_group (aby mogl innym nadawac te uprawnienia)
+-- admin musi miec ADMIN OPTION w grupach klient_group, dealer_group, obsluga_group  (aby mogl innym nadawac te uprawnienia)
 GRANT klient_group TO admin_group WITH ADMIN OPTION;
+GRANT dealer_group TO admin_group WITH ADMIN OPTION;
+GRANT obsluga_group TO admin_group WITH ADMIN OPTION;
 
--- admin moze dodawac nowych adminow oraz klientow
-GRANT ALL ON FUNCTION stworz_klienta TO admin_group;
+-- admin moze dodawac nowych adminow, dealerow, obsluge oraz klientow
 GRANT ALL ON FUNCTION stworz_admina TO admin_group;
+GRANT ALL ON FUNCTION stworz_dealera TO admin_group;
+GRANT ALL ON FUNCTION stworz_obsluge TO admin_group;
+GRANT ALL ON FUNCTION stworz_klienta TO admin_group;
 
 -- admin nie moze kupowac i wystawiac samochodow
 REVOKE ALL ON FUNCTION kup_samochod FROM admin_group; -- sprawdzic czy to dziala (czy admin rzeczywiscie nie moze kupic/wystawic samochodu)

@@ -1,6 +1,6 @@
 -- WIDOK (dla admina/pracownika obslugi - czyli dodatkowo trzeba wyswietlic aukcje zwyklych klientow - te niezatwierdzone przez admina): kto wystawia, parametry samochodu, do kiedy aukcja, cena
 
-create or replace view wszystkie_aukcje_uprzywiledowany_dostep as
+create or replace view wszystkie_aukcje_uprzywilejowany_dostep as
 select tytul,
        to_char(data_wystawienia, 'YYYY-MM-DD')                                   AS "data wystawienia",
        to_char(koniec_aukcji, 'YYYY-MM-DD')                                      AS "koniec aukcji",
@@ -16,6 +16,3 @@ select tytul,
 from aukcje
          inner join uzytkownicy on (wystawione_przez_uid = uid)
          inner join samochody using (sid);
-
-select *
-from wszystkie_aukcje_uprzywiledowany_dostep;
