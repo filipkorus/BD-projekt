@@ -1,0 +1,1 @@
+- w funkcjach kup_samochod, wystaw_samochod uzyc 'SELECT current_user' zeby nie musiec podawac swojego loginu jako argumetnu
