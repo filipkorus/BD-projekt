@@ -1,29 +1,42 @@
-DROP VIEW IF EXISTS otwarte_aukcje;
-DROP VIEW IF EXISTS wszystkie_aukcje_uprzywiledowany_dostep;
+DROP TRIGGER IF EXISTS ustaw_zatwierdzenie_dealera_trigger on aukcje CASCADE;
+DROP FUNCTION IF EXISTS ustaw_zatwierdzenie_dealera CASCADE;
 
-DROP TABLE IF EXISTS aukcje;
-DROP TABLE IF EXISTS samochody;
-DROP TABLE IF EXISTS uzytkownicy;
-DROP TABLE IF EXISTS typ_nadwozia;
-DROP TABLE IF EXISTS typ_paliwa;
+DROP FUNCTION IF EXISTS stworz_admina CASCADE;
+DROP FUNCTION IF EXISTS stworz_dealera CASCADE;
+DROP FUNCTION IF EXISTS stworz_klienta CASCADE;
+DROP FUNCTION IF EXISTS stworz_obsluge CASCADE;
+DROP FUNCTION IF EXISTS usun_uzytkownika CASCADE;
 
-DROP FUNCTION IF EXISTS ustaw_zatwierdzenie_dealera();
-DROP TRIGGER IF EXISTS ustaw_zatwierdzenie_dealera_trigger on aukcje;
+DROP FUNCTION IF EXISTS czy_uzytkownik_z_id_istnieje CASCADE;
+DROP FUNCTION IF EXISTS czy_uzytkownik_z_loginem_istnieje CASCADE;
 
-DROP FUNCTION IF EXISTS czy_uzytkownik_z_id_istnieje();
-DROP FUNCTION IF EXISTS czy_uzytkownik_z_loginem_istnieje();
-DROP FUNCTION IF EXISTS kup_samochod();
-DROP FUNCTION IF EXISTS stworz_admina();
-DROP FUNCTION IF EXISTS stworz_klienta();
-DROP FUNCTION IF EXISTS walidacja_email();
-DROP FUNCTION IF EXISTS walidacja_nr_tel();
-DROP FUNCTION IF EXISTS wystaw_samochod();
-DROP FUNCTION IF EXISTS wyswietl_aktualne_aukcje_uzytkownika();
-DROP FUNCTION IF EXISTS wyswietl_dane_samochodu();
-DROP FUNCTION IF EXISTS wyswietl_historie_aukcji_uzytkownika();
+DROP FUNCTION IF EXISTS walidacja_email CASCADE;
+DROP FUNCTION IF EXISTS walidacja_nr_tel CASCADE;
 
-DROP OWNED BY admin_group;
+DROP FUNCTION IF EXISTS kup_samochod CASCADE;
+DROP FUNCTION IF EXISTS wystaw_samochod CASCADE;
+
+DROP FUNCTION IF EXISTS wyswietl_aktualne_aukcje_uzytkownika CASCADE;
+DROP FUNCTION IF EXISTS wyswietl_dane_samochodu CASCADE;
+DROP FUNCTION IF EXISTS wyswietl_historie_aukcji_uzytkownika CASCADE;
+
+DROP VIEW IF EXISTS otwarte_aukcje CASCADE;
+DROP VIEW IF EXISTS wszystkie_aukcje_uprzywilejowany_dostep CASCADE;
+
+DROP TABLE IF EXISTS aukcje CASCADE;
+DROP TABLE IF EXISTS samochody CASCADE;
+DROP TABLE IF EXISTS uzytkownicy CASCADE;
+DROP TABLE IF EXISTS typ_nadwozia CASCADE;
+DROP TABLE IF EXISTS typ_paliwa CASCADE;
+
+DROP OWNED BY admin_group CASCADE;
 DROP ROLE admin_group;
 
-DROP OWNED BY klient_group;
+DROP OWNED BY klient_group CASCADE;
 DROP ROLE klient_group;
+
+DROP OWNED BY dealer_group CASCADE;
+DROP ROLE dealer_group;
+
+DROP OWNED BY obsluga_group CASCADE;
+DROP ROLE obsluga_group;

@@ -16,6 +16,3 @@ from aukcje
 where sprzedane = FALSE
   and koniec_aukcji > NOW()
   and czy_zatwierdzona = TRUE;
-
-select *
-from otwarte_aukcje;
