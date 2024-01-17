@@ -1,10 +1,14 @@
 $scriptRoot = "."
 
+# Dodaj ścieżkę do katalogu bin PostgreSQL do zmiennej PATH
+$env:PATH += ";C:\Program Files\PostgreSQL\15\bin"
+
+
 # Dane do połączenia z bazą danych
-$server = "10.0.1.1"
+$server = "localhost"
 $database = "samochody"
-$username = "admin"
-$password ="admin"
+$username = "postgres"
+$password ="postgres"
 
 # Ścieżki do plików SQL
 $walidacjaEmail = Join-Path $scriptRoot "functions\walidacja_email.sql"

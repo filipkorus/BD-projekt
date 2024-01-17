@@ -22,7 +22,11 @@ VALUES ('Auta male', 'Citroen C1, Fiat 500, Smart, Kia Picanto'),
 INSERT INTO uzytkownicy (imie, nazwisko, login, email, nr_tel, nr_tel_publiczny, typ_uzytkownika)
 VALUES ('Jan', 'Kowalski', 'jkowalski', 'jankowalski@wp.pl', '123456789', TRUE, 'klient'),
        ('Anna', 'Nowak', 'anowak', 'anna.nowak@example.com', '987654321', FALSE, 'dealer'),
-       ('Adam', 'Majewski', 'amajewski', 'adam.majewski@example.com', '555666777', TRUE, 'klient');
+       ('Adam', 'Majewski', 'amajewski', 'adam.majewski@example.com', '555666777', TRUE, 'klient'),
+       ('Krzyś','Kliencik','klientowyklient','kliencikk@wp.pl','222111333',FALSE,'klient'),
+        ('Karol','Znany','znanykarolekdiler','znanykadil@co.uk','234679231',TRUE,'dealer');
+
+
 
 INSERT INTO samochody (marka, model, rok_produkcji, przebieg, kolor_karoserii, pid, pojemnosc_baku, nid, nowy,
                        powypadkowy, moc_silnika, spalanie, opis)
@@ -33,6 +37,7 @@ VALUES ('Volkswagen', 'Golf', 2019, 50000, 'Czarny', 1, 50, 5, FALSE, TRUE, 120,
         'Używane auto zadbane, regularnie serwisowane.'),
        ('Renault', 'Megane', 2005, 150000, 'Niebieski', 4, 55, 6, FALSE, TRUE, 90, 7,
         'Starsze auto, nadal w dobrym stanie.');
+
 
 INSERT INTO aukcje (tytul, data_wystawienia, koniec_aukcji, wystawione_przez_uid, cena, sid, sprzedane,
                     kupione_przez_uid)
