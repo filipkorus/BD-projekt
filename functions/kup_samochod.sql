@@ -14,7 +14,7 @@ BEGIN
         IF EXISTS (SELECT 1
                    FROM aukcje
                    WHERE aid = aukcja_id
-                     AND (koniec_aukcji < NOW() OR sprzedane = TRUE)
+                     AND (koniec_aukcji < NOW() OR sprzedane = TRUE OR zatwierdzona_przez_pracownika = FALSE)
                        FOR UPDATE) THEN
             RAISE EXCEPTION 'Aukcja (ID=%) nie istnieje lub jest już zakończona', aukcja_id;
         ELSE
