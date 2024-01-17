@@ -5,20 +5,25 @@ CREATE OR REPLACE FUNCTION kup_samochod(
 $$
 DECLARE
     currently_logged_user_login VARCHAR;
+    currently_logged_user_typ   VARCHAR;
     kupujacy_uid INT;
 BEGIN
     BEGIN
         SELECT current_user INTO currently_logged_user_login;
+        SELECT typ_uzytkownika INTO currently_logged_user_typ FROM uzytkownicy WHERE login = currently_logged_user_login;
+
+        IF currently_logged_user_typ = 'admin' OR currently_logged_user_typ = 'obsluga_klienta' THEN
+            RAISE EXCEPTION 'Nie mozesz kupic samochodu';
+        END IF;
 
         -- Sprawdzenie czy aukcja istnieje i nie jest zakończona
         IF EXISTS (SELECT 1
                    FROM aukcje
                    WHERE aid = aukcja_id
-                     AND (koniec_aukcji < NOW() OR sprzedane = TRUE OR czy_zatwierdzona = FALSE)
-                       FOR UPDATE) THEN
-            RAISE EXCEPTION 'Aukcja (ID=%) nie istnieje lub jest już zakończona', aukcja_id;
+                     AND (koniec_aukcji < NOW() OR sprzedane = TRUE OR czy_zatwierdzona = FALSE) FOR UPDATE) THEN
+            RAISE EXCEPTION 'Aukcja (ID=%) nie istnieje lub jest juz zakonczona', aukcja_id;
         ELSE
-            SELECT uid INTO kupujacy_uid FROM uzytkownicy WHERE login = currently_logged_user_login LIMIT 1 FOR UPDATE;
+            SELECT uid INTO kupujacy_uid FROM uzytkownicy WHERE login = currently_logged_user_login LIMIT 1;
             -- Sprawdzenie czy kupujący jest różny od wystawiającego aukcję
             IF EXISTS (SELECT 1
                        FROM aukcje
@@ -31,7 +36,7 @@ BEGIN
                     kupione_przez_uid = kupujacy_uid
                 WHERE aid = aukcja_id;
             ELSE
-                RAISE EXCEPTION 'Nie możesz kupić własnej aukcji';
+                RAISE EXCEPTION 'Nie możesz kupic wlasnej aukcji';
             END IF;
         END IF;
 

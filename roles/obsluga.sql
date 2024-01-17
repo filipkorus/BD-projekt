@@ -30,8 +30,11 @@ GRANT klient_group TO obsluga_group WITH ADMIN OPTION;
 GRANT dealer_group TO obsluga_group WITH ADMIN OPTION;
 
 -- obsluga moze dodawac nowych klientow i dealerow
-GRANT ALL ON FUNCTION stworz_klienta TO obsluga_group;
-GRANT ALL ON FUNCTION stworz_dealera TO obsluga_group;
+GRANT EXECUTE ON FUNCTION stworz_klienta TO obsluga_group;
+GRANT EXECUTE ON FUNCTION stworz_dealera TO obsluga_group;
+
+-- obsluga moze usuwac aukcje
+GRANT EXECUTE ON FUNCTION usun_aukcje TO obsluga_group;
 
 -- admin nie moze kupowac i wystawiac samochodow
 REVOKE ALL ON FUNCTION kup_samochod FROM obsluga_group; -- sprawdzic czy to dziala (czy admin rzeczywiscie nie moze kupic/wystawic samochodu)

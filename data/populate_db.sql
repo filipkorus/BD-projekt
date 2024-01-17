@@ -39,6 +39,6 @@ INSERT INTO aukcje (tytul, data_wystawienia, koniec_aukcji, wystawione_przez_uid
 VALUES ('VW Golf 2019', NOW(), (NOW() + interval '30 day'), 1, 25000, 1, FALSE, NULL),
        ('Nowy Ford Mustang 2022', NOW(), (NOW() + interval '45 day'), 2, 70000, 2, FALSE, NULL),
        ('Oapel Corsa 2018', NOW(), (NOW() + interval '25 day'), 3, 15000, 3, FALSE, NULL),
-       ('Wsyzstko ale nie stara renault ', '2023-12-15'::timestamptz, ('2023-12-15'::timestamptz + interval '10 day'),
+       ('Wsyzstko ale nie stara renault ', '2024-01-14'::timestamptz, ('2024-01-15'::timestamptz + interval '10 day'),
         2, 10000, 4, FALSE, NULL),
        ('stara rura fiat punto', NOW(), (NOW() + interval '15 day'), 2, 222000, 5, TRUE, 1);
