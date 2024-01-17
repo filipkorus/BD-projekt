@@ -13,21 +13,23 @@ CREATE OR REPLACE FUNCTION wystaw_samochod(
     _opis TEXT,
     _tytul VARCHAR(255),
     _cena INT,
-    _login_wystawiajacego VARCHAR(30),
     _data_zakonczenia timestamptz,
     _powypadkowy BOOLEAN DEFAULT NULL
 )
     RETURNS VOID AS
 $$
 DECLARE
+    currently_logged_user_login VARCHAR;
     samochod_id INT;
     uid_wystawiajacego INT;
 BEGIN
     BEGIN
-        SELECT uid INTO uid_wystawiajacego FROM uzytkownicy WHERE login = _login_wystawiajacego FOR UPDATE;
+        SELECT current_user INTO currently_logged_user_login;
+
+        SELECT uid INTO uid_wystawiajacego FROM uzytkownicy WHERE login = currently_logged_user_login FOR UPDATE;
 
         IF uid_wystawiajacego IS NULL THEN
-            RAISE EXCEPTION 'Uzytkownik z loginem % nie istnieje', _login_wystawiajacego;
+            RAISE EXCEPTION 'Uzytkownik z loginem % nie istnieje', currently_logged_user_login;
         END IF;
 
         -- dodawanie wpisu do tabeli samochody
