@@ -16,9 +16,9 @@ DROP FUNCTION IF EXISTS walidacja_nr_tel CASCADE;
 DROP FUNCTION IF EXISTS kup_samochod CASCADE;
 DROP FUNCTION IF EXISTS wystaw_samochod CASCADE;
 
-DROP FUNCTION IF EXISTS wyswietl_aktualne_aukcje_uzytkownika CASCADE;
+DROP FUNCTION IF EXISTS wyswietl_aktualne_aukcje CASCADE;
 DROP FUNCTION IF EXISTS wyswietl_dane_samochodu CASCADE;
-DROP FUNCTION IF EXISTS wyswietl_historie_aukcji_uzytkownika CASCADE;
+DROP FUNCTION IF EXISTS wyswietl_historie_aukcji CASCADE;
 
 DROP VIEW IF EXISTS otwarte_aukcje CASCADE;
 DROP VIEW IF EXISTS wszystkie_aukcje_uprzywilejowany_dostep CASCADE;

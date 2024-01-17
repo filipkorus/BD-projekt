@@ -20,7 +20,7 @@ AS
 $$
 BEGIN
     -- sprawdzanie czy aukcja istnieje
-    IF NOT EXISTS (SELECT 1 FROM aukcje WHERE aid = aukcja_id AND koniec_aukcji > NOW() AND sprzedane = FALSE) THEN
+    IF NOT EXISTS (SELECT 1 FROM aukcje WHERE aid = aukcja_id AND koniec_aukcji > NOW() AND sprzedane = FALSE AND czy_zatwierdzona = TRUE) THEN
         RAISE EXCEPTION 'Auction with ID % does not exist', aukcja_id;
     END IF;
 
