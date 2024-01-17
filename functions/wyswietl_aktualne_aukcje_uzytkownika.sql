@@ -23,7 +23,7 @@ BEGIN
                             a.sprzedane,
                             a.czy_zatwierdzona
                      from aukcje AS a
-                     where (a.sprzedane = FALSE and a.koniec_aukcji > now())
+                     where (a.sprzedane = FALSE and a.koniec_aukcji > now() AND czy_zatwierdzona = TRUE)
                        and a.wystawione_przez_uid = id_uzytkownika;
     ELSE
         RAISE EXCEPTION 'Uzytkownik z ID % nie istnieje', id_uzytkownika;
