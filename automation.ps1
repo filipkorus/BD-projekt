@@ -5,10 +5,10 @@ $env:PATH += ";C:\Program Files\PostgreSQL\15\bin"
 
 
 # Dane do połączenia z bazą danych
-$server = "localhost"
+$server = "10.0.1.1"
 $database = "samochody"
-$username = "postgres"
-$password ="postgres"
+$username = "admin"
+$password ="admin"
 
 # Ścieżki do plików SQL
 $walidacjaEmail = Join-Path $scriptRoot "functions\walidacja_email.sql"
