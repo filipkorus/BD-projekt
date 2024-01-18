@@ -19,17 +19,19 @@ CREATE OR REPLACE FUNCTION wystaw_samochod(
     RETURNS VOID AS
 $$
 DECLARE
-    currently_logged_user_login VARCHAR;
+    currently_logged_user_typ VARCHAR;
     samochod_id INT;
     uid_wystawiajacego INT;
 BEGIN
     BEGIN
-        SELECT current_user INTO currently_logged_user_login;
-
-        SELECT uid INTO uid_wystawiajacego FROM uzytkownicy WHERE login = currently_logged_user_login FOR UPDATE;
+        SELECT uid, typ_uzytkownika INTO uid_wystawiajacego, currently_logged_user_typ FROM uzytkownicy WHERE login = current_user;
 
         IF uid_wystawiajacego IS NULL THEN
-            RAISE EXCEPTION 'Uzytkownik z loginem % nie istnieje', currently_logged_user_login;
+            RAISE EXCEPTION 'Uzytkownik z loginem % nie istnieje', current_user;
+        END IF;
+
+        IF currently_logged_user_typ = 'admin' OR currently_logged_user_typ = 'obsluga_klienta' THEN
+            RAISE EXCEPTION 'Nie mozesz wystawic samochodu';
         END IF;
 
         -- dodawanie wpisu do tabeli samochody

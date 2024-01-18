@@ -1,4 +1,4 @@
--- uzytkownik ma miec mozliwosc wyswietlania swoich aktualnych aukcji
+-- uzytkownik ma miec mozliwosc wyswietlania swoich wszystkich aktualnych aukcji (nawet niezatwierdzonych)
 
 CREATE OR REPLACE FUNCTION wyswietl_aktualne_aukcje()
     RETURNS TABLE
@@ -18,7 +18,7 @@ DECLARE
 BEGIN
     SELECT current_user INTO currently_logged_user_login;
 
-    SELECT uid INTO currently_logged_user_id FROM uzytkownicy WHERE login = currently_logged_user_login LIMIT 1 FOR UPDATE;
+    SELECT uid INTO currently_logged_user_id FROM uzytkownicy WHERE login = currently_logged_user_login LIMIT 1;
 
     IF czy_uzytkownik_z_id_istnieje(currently_logged_user_id) THEN
         RETURN QUERY SELECT a.tytul,
@@ -28,7 +28,7 @@ BEGIN
                             a.sprzedane,
                             a.czy_zatwierdzona
                      from aukcje AS a
-                     where (a.sprzedane = FALSE and a.koniec_aukcji > now() AND czy_zatwierdzona = TRUE)
+                     where (a.sprzedane = FALSE and a.koniec_aukcji > now())
                        and a.wystawione_przez_uid = currently_logged_user_id;
     ELSE
         RAISE EXCEPTION 'Uzytkownik z ID % nie istnieje', currently_logged_user_id;

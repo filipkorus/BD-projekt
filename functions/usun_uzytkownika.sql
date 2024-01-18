@@ -14,7 +14,7 @@ BEGIN
         INTO currently_logged_user_typ
         FROM uzytkownicy
         WHERE login = currently_logged_user_login
-        LIMIT 1 FOR UPDATE;
+        LIMIT 1;
 
         IF czy_uzytkownik_z_loginem_istnieje(currently_logged_user_login) THEN
             IF currently_logged_user_typ = 'admin' THEN

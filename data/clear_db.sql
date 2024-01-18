@@ -1,6 +1,31 @@
 DROP TRIGGER IF EXISTS ustaw_zatwierdzenie_dealera_trigger on aukcje CASCADE;
 DROP FUNCTION IF EXISTS ustaw_zatwierdzenie_dealera CASCADE;
 
+DROP TRIGGER IF EXISTS blokuj_zmiane_daty_wystawienia_trigger on aukcje CASCADE;
+DROP FUNCTION IF EXISTS blokuj_zmiane_daty_wystawienia CASCADE;
+
+DROP TRIGGER IF EXISTS blokuj_edycje_aukcji_po_sprzedazy_trigger on aukcje CASCADE;
+DROP TRIGGER IF EXISTS blokuj_edycje_samochodow_po_sprzedazy_trigger on samochody CASCADE;
+DROP FUNCTION IF EXISTS blokuj_edycje_aukcji_i_samochodow_po_sprzedazy CASCADE;
+
+DROP TRIGGER IF EXISTS blokuj_edycje_nieswoich_aukcji_trigger on aukcje CASCADE;
+DROP TRIGGER IF EXISTS blokuj_edycje_nieswoich_samochodow_trigger on samochody CASCADE;
+DROP FUNCTION IF EXISTS blokuj_edycje_nieswoich_aukcji_i_samochodow CASCADE;
+
+DROP TRIGGER IF EXISTS blokuj_kupowanie_samochodow_przez_admina_i_obsluge_trigger on aukcje CASCADE;
+DROP FUNCTION IF EXISTS blokuj_kupowanie_samochodow_przez_admina_i_obsluge CASCADE;
+
+DROP TRIGGER IF EXISTS blokuj_usuwanie_aukcji_po_sprzedazy_trigger on aukcje CASCADE;
+DROP TRIGGER IF EXISTS blokuj_usuwanie_samochodow_po_sprzedazy_trigger on samochody CASCADE;
+DROP FUNCTION IF EXISTS blokuj_usuwanie_aukcji_i_samochodow_po_sprzedazy CASCADE;
+
+DROP TRIGGER IF EXISTS blokuj_usuwanie_nieswoich_aukcji_trigger on aukcje CASCADE;
+DROP TRIGGER IF EXISTS blokuj_usuwanie_nieswoich_samochodow_trigger on samochody CASCADE;
+DROP FUNCTION IF EXISTS blokuj_usuwanie_nieswoich_aukcji_i_samochodow CASCADE;
+
+DROP TRIGGER IF EXISTS blokuj_wystawianie_samochodow_przez_admina_i_obsluge_trigger on aukcje CASCADE;
+DROP FUNCTION IF EXISTS blokuj_wystawianie_samochodow_przez_admina_i_obsluge CASCADE;
+
 DROP FUNCTION IF EXISTS stworz_admina CASCADE;
 DROP FUNCTION IF EXISTS stworz_dealera CASCADE;
 DROP FUNCTION IF EXISTS stworz_klienta CASCADE;
@@ -15,6 +40,8 @@ DROP FUNCTION IF EXISTS walidacja_nr_tel CASCADE;
 
 DROP FUNCTION IF EXISTS kup_samochod CASCADE;
 DROP FUNCTION IF EXISTS wystaw_samochod CASCADE;
+
+DROP FUNCTION IF EXISTS usun_aukcje CASCADE;
 
 DROP FUNCTION IF EXISTS wyswietl_aktualne_aukcje CASCADE;
 DROP FUNCTION IF EXISTS wyswietl_dane_samochodu CASCADE;
