@@ -1,5 +1,0 @@
-napisac triggery:
-- blokujace wystawianie samochodow przez admina/obsluge
-- blokujace kupowanie samochodow przez admina/obsluge
-- blokujace dodawanie/zmienianie daty aukcji
-- blokujace edytowanie tabeli aukcje/samochody jeseli pole sprzedane=TRUE i pole kupione_przez_uid <> NULL
