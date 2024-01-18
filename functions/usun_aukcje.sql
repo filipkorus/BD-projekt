@@ -4,17 +4,14 @@ CREATE OR REPLACE FUNCTION usun_aukcje(
     RETURNS VOID AS
 $$
 DECLARE
-    currently_logged_user_login VARCHAR;
     currently_logged_user_typ   VARCHAR;
     currently_logged_user_id INT;
 BEGIN
     BEGIN
-        SELECT current_user INTO currently_logged_user_login;
-
         SELECT typ_uzytkownika, uid
         INTO currently_logged_user_typ, currently_logged_user_id
         FROM uzytkownicy
-        WHERE login = currently_logged_user_login
+        WHERE login = current_user
         LIMIT 1;
 
         -- admin i obsluga moga usunac kazda aukcje

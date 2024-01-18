@@ -4,13 +4,11 @@ CREATE OR REPLACE FUNCTION kup_samochod(
     RETURNS VOID AS
 $$
 DECLARE
-    currently_logged_user_login VARCHAR;
     currently_logged_user_typ   VARCHAR;
     kupujacy_uid INT;
 BEGIN
     BEGIN
-        SELECT current_user INTO currently_logged_user_login;
-        SELECT typ_uzytkownika INTO currently_logged_user_typ FROM uzytkownicy WHERE login = currently_logged_user_login;
+        SELECT typ_uzytkownika INTO currently_logged_user_typ FROM uzytkownicy WHERE login = current_user;
 
         IF currently_logged_user_typ = 'admin' OR currently_logged_user_typ = 'obsluga_klienta' THEN
             RAISE EXCEPTION 'Nie mozesz kupic samochodu';
@@ -23,7 +21,7 @@ BEGIN
                      AND (koniec_aukcji < NOW() OR sprzedane = TRUE OR czy_zatwierdzona = FALSE) FOR UPDATE) THEN
             RAISE EXCEPTION 'Aukcja (ID=%) nie istnieje lub jest juz zakonczona', aukcja_id;
         ELSE
-            SELECT uid INTO kupujacy_uid FROM uzytkownicy WHERE login = currently_logged_user_login LIMIT 1;
+            SELECT uid INTO kupujacy_uid FROM uzytkownicy WHERE login = current_user LIMIT 1;
             -- Sprawdzenie czy kupujący jest różny od wystawiającego aukcję
             IF EXISTS (SELECT 1
                        FROM aukcje

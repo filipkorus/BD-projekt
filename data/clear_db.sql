@@ -1,6 +1,9 @@
 DROP TRIGGER IF EXISTS ustaw_zatwierdzenie_dealera_trigger on aukcje CASCADE;
 DROP FUNCTION IF EXISTS ustaw_zatwierdzenie_dealera CASCADE;
 
+DROP TRIGGER IF EXISTS zablokuj_usuwanie_aukcji_trigger on aukcje CASCADE;
+DROP FUNCTION IF EXISTS zablokuj_usuwanie_aukcji CASCADE;
+
 DROP FUNCTION IF EXISTS stworz_admina CASCADE;
 DROP FUNCTION IF EXISTS stworz_dealera CASCADE;
 DROP FUNCTION IF EXISTS stworz_klienta CASCADE;

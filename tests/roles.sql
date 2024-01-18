@@ -19,12 +19,15 @@ SET ROLE admin;
 
 SET role adminek;
 -- SELECT * FROM otwarte_aukcje;
--- SELECT wystaw_samochod('aaa','aaa',2002,200000,'czerwony', 1,55,1,TRUE,100,7,'aaaaaaaaa','aaa aaa 2002', 20000, NOW()+INTERVAL '30 DAY');
--- SELECT kup_samochod(4);
 
-SELECT stworz_obsluge('krystynka','krystynka','krystynka','krystynka','krystynka@gmail.com','723255432',FALSE);
+-- SELECT stworz_klienta('krystynka','krystynka','krystynka','krystynka','krystynka@gmail.com','723255432',FALSE);
 SET role krystynka;
-SELECT stworz_admina('adminek2','filip','filip','filip','adminek2@gmail.com','123255422',FALSE);
+SELECT * FROM otwarte_aukcje;
+-- SELECT usun_aukcje(4);
+DELETE FROM aukcje WHERE aid=4;
+
+
+-- SELECT wystaw_samochod('aaa','aaa',2002,200000,'czerwony', 1,55,1,TRUE,100,7,'aaaaaaaaa','aaa aaa 2002', 20000, NOW()+INTERVAL '30 DAY');
 
 -- UPDATE aukcje SET sprzedane = TRUE, kupione_przez_uid=1 WHERE aid=4;
 --

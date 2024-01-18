@@ -1,8 +1,8 @@
 CREATE ROLE admin_group;
 
--- admin nie moze updateowac kolumn sprzedane, kupione_przez_uid w tabeli aukcje
+-- admin nie moze updateowac kolumn sprzedane, data_wystawienia, kupione_przez_uid w tabeli aukcje
 -- nie moze tez robic insert do tabeli aukcje
-GRANT SELECT, UPDATE (aid, tytul, data_wystawienia, koniec_aukcji, wystawione_przez_uid, cena, sid,
+GRANT SELECT, UPDATE (aid, tytul, koniec_aukcji, wystawione_przez_uid, cena, sid,
                       czy_zatwierdzona), DELETE ON aukcje TO admin_group;
 
 -- admin może CRUD na tabelach z paliwami oraz z nadwoziami
@@ -37,5 +37,5 @@ GRANT EXECUTE ON FUNCTION stworz_klienta TO admin_group;
 GRANT EXECUTE ON FUNCTION usun_aukcje TO admin_group;
 
 -- admin nie moze kupowac i wystawiac samochodow
-REVOKE EXECUTE ON FUNCTION kup_samochod FROM admin_group; -- sprawdzic czy to dziala (czy admin rzeczywiscie nie moze kupic/wystawic samochodu)
-REVOKE EXECUTE ON FUNCTION wystaw_samochod FROM admin_group; -- to tez
+REVOKE EXECUTE ON FUNCTION kup_samochod FROM admin_group;
+REVOKE EXECUTE ON FUNCTION wystaw_samochod FROM admin_group;
