@@ -8,3 +8,14 @@
 8. Po zakupieniu samochodu przez jakiegoś uzytkownika właściciel aukcji ma nie mieć możliwości edycji aukcji (oprócz pola które się zmienia na kupione no)
 9. Admin nie ma prawa kupować żadnego samochodu
 10. Stworzyć obsługę może tylko admin
+11. Usuwanie, dodawanie do tabeli typ_paliwa i typ_nadwozia ma mieć tylko admin i obsługa
+12. Obsługa nie może dodać własnej aukcji
+
+
+13. Kupno samochodu następuje przez funkcję kup_samochod. Użytkownik ma podać id aukcji, przez którą chce zakupić auto
+
+
+14. Dodanie nowego klienta/dealera następuje przez funkcję stworz_klienta przez obsługę lub admina
+15. Mail dodawanego użytkownika musi być w odpowiednim formacie aby użytkownik został dodany oraz być unikatowy
+16. Numer telefonu dodawanego użytkownika musi być w odpowiednim formacie aby użytkownik został dodany oraz być unikatowy
+17. Wyświetlenie szczegółów samochodu wystawionego na aukcji powinno odbywać się poprzez funkcję wyswietl_dane_samochodu() i podanie id_aukcji
