@@ -1,4 +1,4 @@
-SET ROLE admin;
+SET ROLE postgres;
 
 -- SELECT stworz_admina('adminek', 'qwerty', 'Dobry', 'Admin', 'adminek@gmail.com', '935226719');
 
