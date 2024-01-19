@@ -4,10 +4,9 @@ GRANT SELECT ON moje_aktualne_aukcje TO dealer_group;
 GRANT SELECT ON moja_historia_aukcji TO dealer_group;
 GRANT SELECT ON otwarte_aukcje TO dealer_group;
 GRANT SELECT ON dane_samochodow TO dealer_group;
+
 GRANT EXECUTE ON FUNCTION kup_samochod TO dealer_group;
 GRANT EXECUTE ON FUNCTION wystaw_samochod TO dealer_group;
-GRANT EXECUTE ON FUNCTION wyswietl_aktualne_aukcje TO dealer_group;
-GRANT EXECUTE ON FUNCTION wyswietl_historie_aukcji TO dealer_group;
 
 -- dealer moze usuwac swoje aukcje
 GRANT EXECUTE ON FUNCTION usun_aukcje TO dealer_group;
