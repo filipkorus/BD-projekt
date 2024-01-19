@@ -7,6 +7,8 @@ GRANT SELECT, UPDATE (aid, tytul, koniec_aukcji, wystawione_przez_uid, cena, sid
 
 -- admin może CRUD na tabelach z paliwami oraz z nadwoziami
 GRANT SELECT, UPDATE, INSERT, DELETE ON typ_paliwa, typ_nadwozia TO admin_group;
+GRANT USAGE, SELECT ON SEQUENCE typ_paliwa_pid_seq TO admin_group;
+GRANT USAGE, SELECT ON SEQUENCE typ_nadwozia_nid_seq TO admin_group;
 
 -- admin nie może dodawac nowych samochodow
 GRANT SELECT, UPDATE, DELETE ON samochody TO admin_group;
@@ -15,6 +17,9 @@ GRANT SELECT, UPDATE, DELETE ON samochody TO admin_group;
 GRANT SELECT, INSERT, UPDATE, DELETE ON uzytkownicy TO admin_group;
 GRANT USAGE, SELECT ON SEQUENCE uzytkownicy_uid_seq TO admin_group;
 -- GRANT CREATE ON SCHEMA public TO admin_group;
+
+-- admin moze usuwac uzytkownikow
+GRANT EXECUTE ON FUNCTION usun_uzytkownika TO admin_group;
 
 -- admin musi miec mozliwosc tworzenia POLICY (create policy...)
 -- GRANT CREATE ON SCHEMA public TO admin_group;

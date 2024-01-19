@@ -7,6 +7,8 @@ GRANT SELECT, UPDATE (aid, tytul, koniec_aukcji, wystawione_przez_uid, cena, sid
 
 -- obsluga może CRUD na tabelach z paliwami oraz z nadwoziami
 GRANT SELECT, UPDATE, INSERT, DELETE ON typ_paliwa, typ_nadwozia TO obsluga_group;
+GRANT USAGE, SELECT ON SEQUENCE typ_paliwa_pid_seq TO obsluga_group;
+GRANT USAGE, SELECT ON SEQUENCE typ_nadwozia_nid_seq TO obsluga_group;
 
 -- osbluga nie może dodawac nowych samochodow
 GRANT SELECT, UPDATE, DELETE ON samochody TO obsluga_group;

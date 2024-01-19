@@ -55,6 +55,28 @@ DROP TABLE IF EXISTS uzytkownicy CASCADE;
 DROP TABLE IF EXISTS typ_nadwozia CASCADE;
 DROP TABLE IF EXISTS typ_paliwa CASCADE;
 
+-- remove all users with one of our four roles
+DO
+$$
+    DECLARE
+        username TEXT;
+        role     TEXT;
+    BEGIN
+        FOR username, role IN (SELECT r.rolname, r1.rolname as role
+                               FROM pg_catalog.pg_roles r
+                                        LEFT JOIN pg_catalog.pg_auth_members m ON (m.member = r.oid)
+                                        LEFT JOIN pg_roles r1 ON (m.roleid = r1.oid)
+                               WHERE r.rolcanlogin
+                               ORDER BY 1)
+            LOOP
+                IF role IN ('admin_group', 'klient_group', 'dealer_group', 'obsluga_group') THEN
+                    EXECUTE 'DROP OWNED BY ' || username || ' CASCADE; DROP ROLE ' || username;
+                END IF;
+            END LOOP;
+    END
+$$;
+
+
 DROP OWNED BY admin_group CASCADE;
 DROP ROLE admin_group;
 

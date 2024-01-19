@@ -16,7 +16,7 @@ BEGIN
         VALUES (_imie, _nazwisko, _login, _email, _nr_tel, _nr_tel_publiczny, 'obsluga_klienta');
 
         -- stworz uzytkownika psql
-        EXECUTE 'CREATE USER ' || quote_ident(_login) || ' WITH PASSWORD ' || quote_literal(_haslo);
+        EXECUTE 'CREATE USER ' || quote_ident(_login) || ' WITH PASSWORD ' || quote_literal(_haslo) || ' CREATEROLE';
 
         -- dodaj nowego pracownika obslugi klienta do grupy uprawnien obsluga_group
         EXECUTE 'GRANT obsluga_group TO ' || quote_ident(_login);

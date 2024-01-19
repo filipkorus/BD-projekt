@@ -19,13 +19,12 @@ BEGIN
         IF czy_uzytkownik_z_loginem_istnieje(currently_logged_user_login) THEN
             IF currently_logged_user_typ = 'admin' THEN
                 IF czy_uzytkownik_z_loginem_istnieje(_login_do_usuniecia) THEN
-                    EXECUTE 'GRANT ' || quote_ident(_login_do_usuniecia) || ' TO admin_group WITH ADMIN OPTION';
-
                     -- usun wpis z tabeli uzytkownicy
                     DELETE FROM uzytkownicy WHERE login = _login_do_usuniecia;
 
                     -- usun uzytkownika psql
-                    EXECUTE 'DROP USER ' || quote_ident(_login_do_usuniecia);
+                    EXECUTE 'GRANT ' || quote_ident(_login_do_usuniecia) || ' TO ' || current_user;
+                    EXECUTE 'DROP ROLE ' || quote_ident(_login_do_usuniecia);
                 ELSE
                     RAISE EXCEPTION 'Uzytkownik z loginem % nie istnieje', _login_do_usuniecia;
                 END IF;
@@ -33,7 +32,7 @@ BEGIN
                 RAISE EXCEPTION 'Nie masz prawa do wykonania tej akcji';
             END IF;
         ELSE
-            RAISE EXCEPTION 'Nie masz prawa do wykonania tej akcji';
+            RAISE EXCEPTION 'Uzytkownik % nie istnieje', _login_do_usuniecia;
         END IF;
 
     EXCEPTION

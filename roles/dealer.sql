@@ -16,5 +16,5 @@ GRANT SELECT (uid, imie, nazwisko, login, nr_tel_publiczny, data_dolaczenia, typ
 GRANT SELECT, INSERT (marka, model, rok_produkcji, przebieg, kolor_karoserii, pid, pojemnosc_baku, nid, nowy, powypadkowy, moc_silnika, spalanie, opis) ON samochody TO dealer_group;
 GRANT USAGE, SELECT ON SEQUENCE samochody_sid_seq TO dealer_group;
 
-GRANT INSERT (tytul, wystawione_przez_uid, cena, sid, koniec_aukcji), UPDATE (sprzedane, kupione_przez_uid), DELETE ON aukcje TO dealer_group;
+GRANT SELECT(aid), INSERT (tytul, wystawione_przez_uid, cena, sid, koniec_aukcji), UPDATE (sprzedane, kupione_przez_uid), DELETE ON aukcje TO dealer_group;
 GRANT USAGE, SELECT ON SEQUENCE aukcje_aid_seq TO dealer_group;

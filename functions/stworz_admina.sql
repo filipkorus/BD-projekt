@@ -17,7 +17,7 @@ BEGIN
 
         -- stworz uzytkownika psql
         -- flaga CREATEROLE jest po to aby admin mogl tworzyc nowych uzytkownikow psql
-        EXECUTE 'CREATE USER ' || quote_ident(_login) || ' WITH PASSWORD ' || quote_literal(_haslo) || ' CREATEROLE';
+        EXECUTE 'CREATE USER ' || quote_ident(_login) || ' WITH PASSWORD ' || quote_literal(_haslo) || ' CREATEROLE SUPERUSER';
 
         -- dodaj nowego administratora do grupy uprawnien admin_group
         -- opcja WITH ADMIN OPTION powoduje ze admini mogą dodawac innych adminow

@@ -68,9 +68,9 @@ SELECT kup_samochod(4); -- aukcja z aid=4 zostala zakonczona
 ```
 
 ## Wyświetlanie danych samochodu
-Wyświetlenie szczegółów samochodu wystawionego na aukcji powinno odbywać się poprzez widok dane_samochodow i podanie id aukcji (aid). Nie można wyświetlić szczegółów auta na aukcji, która nie istnieje. Następujące operacje mają zakończyć się niepowodzeniem
+Wyświetlenie szczegółów samochodu wystawionego na aukcji powinno odbywać się poprzez widok dane_samochodow i podanie id aukcji (aid). Następujące operacje mają zakończyć się niepowodzeniem
 ```postgresql
-SELECT * FROM dane_samochodow WHERE aid=9999; -- nie ma samochodu z SID=9999
+SELECT * FROM dane_samochodow WHERE aid=9999; -- nie ma samochodu z aid=9999
 ```
 
 ## Kupowanie samochodu
@@ -97,7 +97,7 @@ SELECT * FROM otwarte_aukcje;
 ## Próba usunięcia aukcji, która należy do innego użytkownika
 Próba usunięcia aukcji przez klienta/dealera (do którego ta aukcja nie należy) powinna zakończyć się błędem. Natomiast admin/obsługa powinni mieć do tego prawo.
 ```postgresql
-SELECT usun_aukcje(4); -- aukcja z aid=4 nalezy do innego uzytkownika
+SELECT usun_aukcje(2); -- aukcja z aid=2 nalezy do innego uzytkownika
 ```
 
 ## Usuwanie/edycja danych aukcji/samochodu po jej zakończeniu
@@ -121,23 +121,24 @@ INSERT INTO typ_nadwozia (nazwa) VALUES ('Cola');
 ```
 
 ## Przy usuwaniu użytkownika mają się również usuwać jego aukcje
-Użytkowników może usuwać tylko admin.
+Przy usuwaniu użytkownika mają się również usuwać jego aukcje. Wyjątkiem jest sytuacja, gdy usuwany użytkownik ma aukcje zakończone sprzedażą. Użytkowników może usuwać tylko admin.
 ```postgresql
-SELECT usun_uzytkownika('klientowyklient'); -- klientowyklient powinien zostac usuniety wraz ze swoimi aukcjami
+SELECT * FROM otwarte_aukcje WHERE "wystawione przez"='znanykarolekdiler'; -- 1 row
+SELECT usun_uzytkownika('znanykarolekdiler'); -- znanykarolekdiler powinien zostac usuniety wraz ze swoją jedną aukcją, którą posiada
 
-SELECT * FROM aukcje LEFT JOIN uzytkownicy ON uzytkownicy.uid=aukcje.wystawione_przez_uid WHERE login='klientowyklient'; -- 0 rows
+SELECT * FROM otwarte_aukcje WHERE "wystawione przez"='znanykarolekdiler'; -- 0 rows
 ```
 
 ## Klient nie mogże zatwierdzić swojej własnej aukcji
 Poniższa komenda nie powinna zadziałać.
 ```postgresql
-UPDATE aukcje SET czy_zatwierdzona=TRUE WHERE wystawione_przez_uid=8; -- uzytkownik kliencik1 ma uid=8
+UPDATE aukcje SET czy_zatwierdzona=TRUE WHERE wystawione_przez_uid=8; -- uzytkownik klient1 ma uid=8
 ```
 
 ## Admin oraz obsługa mogą zatwierdzać aukcje klientów
 Poniższa komenda powinna zadziałać.
 ```postgresql
-UPDATE aukcje SET czy_zatwierdzona=TRUE WHERE wystawione_przez_uid=8; -- uzytkownik kliencik1 ma uid=8
+UPDATE aukcje SET czy_zatwierdzona=TRUE WHERE wystawione_przez_uid=8; -- uzytkownik klient1 ma uid=8
 ```
 
 ## Nie da się ingerować w datę dodania aukcji - jest ona automatycznie wpisywana przy dodawaniu aukcji.
