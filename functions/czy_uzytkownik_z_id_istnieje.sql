@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE FUNCTION czy_uzytkownik_z_id_istnieje(
     id_uzytkownika INT
 )

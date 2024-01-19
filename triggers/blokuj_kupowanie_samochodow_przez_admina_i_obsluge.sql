@@ -18,7 +18,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER blokuj_kupowanie_samochodow_przez_admina_i_obsluge_trigger
+CREATE OR REPLACE TRIGGER blokuj_kupowanie_samochodow_przez_admina_i_obsluge_trigger
     BEFORE UPDATE ON aukcje
     FOR EACH ROW
 EXECUTE FUNCTION blokuj_kupowanie_samochodow_przez_admina_i_obsluge();

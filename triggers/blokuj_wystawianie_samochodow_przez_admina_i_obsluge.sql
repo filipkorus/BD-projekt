@@ -18,7 +18,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER blokuj_wystawianie_samochodow_przez_admina_i_obsluge_trigger
+CREATE OR REPLACE TRIGGER blokuj_wystawianie_samochodow_przez_admina_i_obsluge_trigger
     BEFORE INSERT OR UPDATE ON aukcje
     FOR EACH ROW
 EXECUTE FUNCTION blokuj_wystawianie_samochodow_przez_admina_i_obsluge();

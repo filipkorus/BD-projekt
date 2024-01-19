@@ -26,9 +26,9 @@ BEGIN
 
         -- klient i dealer moga usunac tylko swoja aukcje
         ELSEIF currently_logged_user_typ = 'klient' OR currently_logged_user_typ = 'dealer' THEN
-            IF NOT EXISTS (SELECT 1 FROM aukcje  WHERE aid = aukcja_id AND wystawione_przez_uid = currently_logged_user_id) THEN
+            IF NOT EXISTS (SELECT 1 FROM moje_aktualne_aukcje  WHERE aid = aukcja_id) THEN
                 RAISE EXCEPTION 'Aukcja (ID=%) nie istnieje', aukcja_id;
-            ELSEIF NOT EXISTS (SELECT 1 FROM aukcje  WHERE aid = aukcja_id AND sprzedane = FALSE) THEN
+            ELSEIF NOT EXISTS (SELECT 1 FROM moje_aktualne_aukcje WHERE aid = aukcja_id AND sprzedane = FALSE) THEN
                 RAISE EXCEPTION 'Nie mozna usunac aukcji zakonczonej sprzedaza';
             ELSE
                 -- usun aukcje

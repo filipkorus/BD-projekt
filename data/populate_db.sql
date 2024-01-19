@@ -36,7 +36,9 @@ VALUES ('Volkswagen', 'Golf', 2019, 50000, 'Czarny', 1, 50, 5, FALSE, TRUE, 120,
        ('Fiat', 'Punto', 2015, 80000, 'Srebrny', 1, 40, 1, FALSE, TRUE, 80, 5,
         'Używane auto zadbane, regularnie serwisowane.'),
        ('Renault', 'Megane', 2005, 150000, 'Niebieski', 4, 55, 6, FALSE, TRUE, 90, 7,
-        'Starsze auto, nadal w dobrym stanie.');
+        'Starsze auto, nadal w dobrym stanie.'),
+       ('Fiat', 'Punto', 2015, 150000, 'Zielony', 1, 40, 1, FALSE, TRUE, 80, 5,
+        'na zlom.');
 
 INSERT INTO aukcje (tytul, koniec_aukcji, wystawione_przez_uid, cena, sid, sprzedane, kupione_przez_uid)
 VALUES ('VW Golf 2019', (NOW() + interval '30 day'), 1, 25000, 1, FALSE, NULL),
@@ -44,4 +46,5 @@ VALUES ('VW Golf 2019', (NOW() + interval '30 day'), 1, 25000, 1, FALSE, NULL),
        ('Oapel Corsa 2018', (NOW() + interval '25 day'), 3, 15000, 3, FALSE, NULL),
        ('Wsyzstko ale nie stara renault ', ('2024-01-15'::timestamptz + interval '10 day'),
         2, 10000, 4, FALSE, NULL),
-       ('stara rura fiat punto', (NOW() + interval '15 day'), 2, 222000, 5, TRUE, 1);
+       ('stara rura fiat punto', (NOW() + interval '15 day'), 2, 222000, 5, TRUE, 1),
+       ('punto do kasacji', (NOW() + interval '15 day'), 4, 500, 6, TRUE, 1);

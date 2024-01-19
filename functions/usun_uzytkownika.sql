@@ -19,6 +19,8 @@ BEGIN
         IF czy_uzytkownik_z_loginem_istnieje(currently_logged_user_login) THEN
             IF currently_logged_user_typ = 'admin' THEN
                 IF czy_uzytkownik_z_loginem_istnieje(_login_do_usuniecia) THEN
+                    EXECUTE 'GRANT ' || quote_ident(_login_do_usuniecia) || ' TO admin_group WITH ADMIN OPTION';
+
                     -- usun wpis z tabeli uzytkownicy
                     DELETE FROM uzytkownicy WHERE login = _login_do_usuniecia;
 

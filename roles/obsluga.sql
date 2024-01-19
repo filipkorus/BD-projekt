@@ -11,8 +11,8 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON typ_paliwa, typ_nadwozia TO obsluga_grou
 -- osbluga nie może dodawac nowych samochodow
 GRANT SELECT, UPDATE, DELETE ON samochody TO obsluga_group;
 
--- obsluga moze zarzadzac uzytkownikami
-GRANT SELECT, INSERT, UPDATE, DELETE ON uzytkownicy TO obsluga_group;
+-- obsluga moze zarzadzac uzytkownikami, ale nie moze ich usuwac
+GRANT SELECT, INSERT, UPDATE ON uzytkownicy TO obsluga_group;
 GRANT USAGE, SELECT ON SEQUENCE uzytkownicy_uid_seq TO obsluga_group;
 
 -- GRANT CREATE ON SCHEMA public TO admin_group;

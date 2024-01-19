@@ -17,7 +17,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER blokuj_zmiane_daty_wystawienia_trigger
+CREATE OR REPLACE TRIGGER blokuj_zmiane_daty_wystawienia_trigger
     BEFORE INSERT OR UPDATE ON aukcje
     FOR EACH ROW
 EXECUTE FUNCTION blokuj_zmiane_daty_wystawienia();
