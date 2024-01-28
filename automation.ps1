@@ -3,12 +3,12 @@ $scriptRoot = "."
 # Dodaj ścieżkę do katalogu bin PostgreSQL do zmiennej PATH
 $env:PATH += ";C:\Program Files\PostgreSQL\15\bin"
 
-
 # Dane do połączenia z bazą danych
-$server = "10.0.1.1"
+$server = "localhost"
+$port = "5444"
 $database = "samochody"
-$username = "admin"
-$password ="admin"
+$username = "postgres"
+$password ="postgres"
 
 # Ścieżki do plików SQL
 $walidacjaEmail = Join-Path $scriptRoot "functions\walidacja_email.sql"
@@ -44,15 +44,8 @@ $triggerAuction6 = Join-Path $scriptRoot "triggers\blokuj_usuwanie_nieswoich_auk
 $triggerAuction7 = Join-Path $scriptRoot "triggers\blokuj_wystawianie_samochodow_przez_admina_i_obsluge.sql"
 $populateTablesScript = Join-Path $scriptRoot "data\populate_db.sql"
 
-#$testRoles = Join-Path $scriptRoot "tests\roles.sql"
-
-# Polecenie psql
-#$psql = "psql -h $server -d $database -U $username  -f"
-# Polecenie psql
-#$psql = "psql -h $server -d $database -U $username -W $password -f"
-
 $env:PGPASSWORD = $password
-$psql = "psql -h $server -d $database -U $username -f"
+$psql = "psql -h $server -p $port -d $database -U $username -f"
 
 # Wykonaj skrypty SQL po kolei
 Invoke-Expression "$psql $clearDbScript"
@@ -87,8 +80,6 @@ Invoke-Expression "$psql $roleDealer"
 Invoke-Expression "$psql $roleObsluga"
 Invoke-Expression "$psql $roleAdmin"
 Invoke-Expression "$psql $populateTablesScript"
-
-#Invoke-Expression "$psql $testRoles"
 
 # Reset the PGPASSWORD environment variable after the script execution
 Remove-Item Env:\PGPASSWORD
