@@ -1,3 +1,7 @@
-Aby uruchomić projekt należy w Powershellu uruchomić skrypt automation.ps1, który w odpowiedniej kolejności tworzy tabele, funkcje, triggery, itp.
-Na początku tego pliku trzeba ustawić dane logowania do bazy danych (adres serwera, login, hasło, nazwę bazy danych).
+```shell
+docker compose up
+```
 
+Przy pierwszym uruchomieniu należy stworzyć bazę danych o nazwie `samochody` za pomocą (pgadmin)[http://localhost;5050].
+
+Aby uruchomić projekt należy w Powershellu uruchomić skrypt automation.ps1, który w odpowiedniej kolejności tworzy tabele, funkcje, triggery, itp.
